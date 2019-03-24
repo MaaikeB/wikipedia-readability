@@ -27,6 +27,7 @@ def get_readability_scores(text_extracts, readability_formulas=['FleschReadingEa
     """
 
     page_scores = {}
+
     # Loop over the page extracts and add the readability_scores to the dict
     for page_extract in text_extracts:
 
@@ -42,7 +43,7 @@ def get_readability_scores(text_extracts, readability_formulas=['FleschReadingEa
         readability_scores = readability.getmeasures(page_extract_text, lang='en')[keys.ReadabilityCalculator.readability_grades]
 
         for readability_formula in readability_formulas:
-            # todo: add try catch and catch ValueError
+            # TODO: add try, catch ValueError and raise an Exception
             page_scores[id][readability_formula] = readability_scores[readability_formula]
 
     return page_scores

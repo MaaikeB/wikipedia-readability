@@ -21,7 +21,7 @@ def get_category_page_extracts(category_title, articles_limit=50, page_intro=Tru
 
     """
 
-    # todo: Validate the parameters
+    # TODO: Validate the parameters & raise Exceptions if invalid
     # - The category_title should be a string and no more than 250 characters
     # - The articles_limit should be an integer
     # - If page_intro is true, the number_of_characters parameter should not be sent
@@ -30,6 +30,9 @@ def get_category_page_extracts(category_title, articles_limit=50, page_intro=Tru
 
     # Get the category page ids
     category_page_ids = _get_category_page_ids(category_title, articles_limit)
+
+    if len(category_page_ids) == 0:
+        return []
 
     # Get the extracts of the pages
     page_extracts = _get_page_extracts(category_page_ids, page_intro, number_of_characters)
@@ -91,7 +94,7 @@ def _get_page_extracts(page_ids, page_intro, number_of_characters):
     ..., ...
     """
 
-    # todo: validate that the page_ids list is no longer than 50
+    # TODO: Validate that the page_ids list is no longer than 50 & raise Exception if this is not the case
 
     # Prepare the page_intro or number_of_characters parameters
     page_intro_param = ''
@@ -123,9 +126,14 @@ def _get_page_extracts(page_ids, page_intro, number_of_characters):
     # Load the object from the JSON
     response_data = json.loads(response_data)
 
-    # Get the 'pages' object and make it into a list of dicts
-    # todo: try catch
+    # Get the 'pages' object
+    # TODO: Add try and raise Exception in case of a KeyError
     page_data = response_data[keys.MediaWikiAPI.query][keys.MediaWikiAPI.pages]
-    page_list = [page_dict for page,page_dict in page_data.items()]
+
+    # Create a list from the dict, and add only page objects that have extract and id properties
+    page_list = []
+    for page, page_dict in page_data.items():
+        if ('extract' in page_dict and 'pageid' in page_dict):
+            page_list.append(page_dict)
 
     return page_list
