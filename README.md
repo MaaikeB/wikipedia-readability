@@ -28,8 +28,9 @@ pip install -r requirements.txt
 
 ## Run the project
 
+From the root of the project
 ```
-python manage.py runserver
+python3 wikipedia_readability/manage.py runserver
 ```
 
 Now browse to: http://127.0.0.1:8000/article_scoring/
