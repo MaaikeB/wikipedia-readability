@@ -5,7 +5,7 @@
   var categoryInputEl = $('.js-article-sorting_category-input');
   var errorTextEl = $('.js-article-sorting_error-text');
   var articlesResultsEl = $('.js-article-sorting_article-results');
-  var articlesTableEl = $('.js-article-sorting_article-table');
+  var articlesTableBodyEl = $('.js-article-sorting_article-table-body');
 
   // Handle the category form submit
   categoryFormEl.submit(function(e) {
@@ -20,7 +20,7 @@
     }
 
     // Empty the results table
-    articlesTableEl.empty();
+    articlesTableBodyEl.empty();
 
     // Submit the category to the server to get the article results
     _getArticlesInCategory(categoryValue);
@@ -54,15 +54,11 @@
 
         // If the response has an error, show an error message and don't continue
         if ('error' in response) {
-            _showError();
-            return;
+          _showError();
+          return;
         }
 
         // TODO: Deal with an empty list or lack of certain properties on the dicts
-
-        if (response.category_page_extract.length === 0) {
-
-        }
 
         // Loop over the article results and add a table row for every article
         for (i = 0; i < response.category_page_extracts.length; i++) {
@@ -78,7 +74,7 @@
                 '</div>' +
               '</td>' +
             '</tr>';
-          articlesTableEl.append(tableRow);
+          articlesTableBodyEl.append(tableRow);
         }
         articlesResultsEl.removeAttr('hidden');
       },

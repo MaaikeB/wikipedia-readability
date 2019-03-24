@@ -11,7 +11,6 @@ def get_readability_scores(text_extracts, readability_formulas=['FleschReadingEa
 
     :param text_extracts (list): List of dicts with the following values: 'id' and 'text'
     :param readability_formulas (list): List of the readability formulas to get the scores for
-
     :return (dict): Dict with ids as the key and a dict as the value, with all the requested readability formulas
     and their score, so for example:
     {

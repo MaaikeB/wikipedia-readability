@@ -12,25 +12,27 @@ def get_category_page_extracts(category_title, articles_limit=50, page_intro=Tru
     """
     Gets the page extracts from the given category
 
-    :param category_title (string): The title of the category to retrieve the extracts
+    :param category_title (string): The title of the category to retrieve the extracts for
     :param articles_limit (integer): The maximum amount of articles to retrieve, by default 50
     :param page_into (boolean): Whether or not to get only the Wikipedia page intro
     :param number_of_characters: The amount of characters to return for each Wikipedia page. This parameter should not be
     passed when passing page_intro=True
     :return (list): A list of dict objects representing the pages with the following properties:
-
+    - id
+    - extract
     """
 
     # TODO: Validate the parameters & raise Exceptions if invalid
     # - The category_title should be a string and no more than 250 characters
     # - The articles_limit should be an integer
-    # - If page_intro is true, the number_of_characters parameter should not be sent
-    # - The page_intro should be a boolean
+    # - If page_intro is True, the number_of_characters parameter should not be sent
+    # - The page_intro should be a Boolean
     # - The number of characters should be an integer
 
     # Get the category page ids
     category_page_ids = _get_category_page_ids(category_title, articles_limit)
 
+    # If there are no page ids, return an empty list
     if len(category_page_ids) == 0:
         return []
 
