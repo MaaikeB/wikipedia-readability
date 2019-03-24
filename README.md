@@ -9,6 +9,8 @@ The list will be sorted by readability - from least readability to most readabil
 
 TODO: How is the readability sorting being done.
 
+TODO: You can see the project life on ...
+
 ## Run the project
 
 TODO

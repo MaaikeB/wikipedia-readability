@@ -4,9 +4,44 @@
     <meta charset="UTF-8">
     <title>Title</title>
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    {% load static %}
+    <link rel="stylesheet" href="{% static 'article_scoring/index.css' %}">
 </head>
 <body>
-    <h1>Article Scoring</h1>
+    <div class="container">
+        <br><br>
+        <h1>Article Scoring</h1>
+        <br>
+        <div class="row">
+            Add a category below and the Wikipedia articles in that catefory will be presented. <br>
+            The articles have a score for readability, and are sorted from least readable to most readable (Yes, counter-intuitive but true... :P)
+        </div>
+        <br>
+        <div class="row">
+            <form class="js-article-sorting_category-form form-group col-sm-6">
+                <input id="category" class="js-article-sorting_category-input form-control" type="text" name="category" placeholder="Category">
+                <div>
+                    <small class="article-sorting_error-text js-article-sorting_error-text text-danger"></small>
+                </div>
+                <br>
+                <input type="submit" class="js-article-sorting_category-form-submit btn btn-primary" value="Get articles in category">
+            </form>
+        </div>
+        <br>
+        <div class="row js-article-sorting_article-results" hidden>
+            <div>Here are the Wikipedia articles in the chosen category:</div>
+            <br><br>
+            <table class="js-article-sorting_article-table table">
+                  <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Readability Score</th>
+                        </tr>
+                  </thead>
+                  <tbody></tbody>
+            </table>
+        </div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{% static 'article_scoring/index.js' %}"></script>
 </body>
