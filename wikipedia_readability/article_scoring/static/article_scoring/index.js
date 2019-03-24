@@ -46,18 +46,27 @@
   function _getArticlesInCategory() {
     // Make the request to the get_articles_in_category endpoint
     $.ajax({
-      url: "get_articles_in_category",
+      url: 'get_articles_in_category',
       data: {
-          'category': categoryInputEl.val()
+          'category_title': categoryInputEl.val()
         },
       success: function(response) {
 
+        // TODO: deal with no response
+
          // Loop over the article results and add a table row for every article
-         for (i = 0; i < response.wikipedia_articles.length; i++) {
+         for (i = 0; i < response.category_page_extracts.length; i++) {
            var tableRow =
+             '<tr class="toggle-parent-' + i + '" data-toggle="collapse" data-target=".js-article-sorting_text-extract' + i + '">' +
+               '<td>' + response.category_page_extracts[i]['title'] + '</td>' +
+               '<td>' + response.category_page_extracts[i]['readability_score'] + '</td>' +
+             '</tr>' +
              '<tr>' +
-               '<td>' + response.wikipedia_articles[i]['title'] + '</td>' +
-               '<td>' + response.wikipedia_articles[i]['readability_score'] + '</td>' +
+               '<td colspan=2>' +
+                 '<div class="collapse js-article-sorting_text-extract' + i + '" data-parent=".toggle-parent-' + i + '">' +
+                  response.category_page_extracts[i]['extract'] +
+                 '</div>' +
+               '</td>' +
              '</tr>';
            articlesTableEl.append(tableRow);
          }
