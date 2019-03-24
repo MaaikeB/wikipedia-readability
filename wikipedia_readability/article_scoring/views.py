@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.template import loader
 
 from article_scoring import mediawiki_api
+from article_scoring import readability_calculator
 
 
 def index(request):
@@ -29,15 +30,42 @@ def get_articles_in_category(request):
     # Get the category title from the request object, and perform basic validation
     category_title = request.GET['category_title']
 
-    # todo validate that it is a string and no longer than 250 characters
+    # todo: Validate that it is a string and no longer than 250 characters
 
     # Get the extracts of the category pages
     category_page_extracts = mediawiki_api.get_category_page_extracts(category_title, page_intro=True)
 
-    response_data = {
-        'category_page_extracts': category_page_extracts
-    }
+    # Get the page readability scores
+    # Prepare list with 'generic' wording in order to send it to the readability calculator
+    text_list = []
+    for category_page_extract in category_page_extracts:
+        text_list.append({
+            'id': category_page_extract['pageid'],
+            'text': category_page_extract['extract']
+        })
+    readability_scores = readability_calculator.get_readability_scores(text_list)
 
-    # todo: Pass the list of page extracts to the readability calculator to get the readability scores for each
+    # Add the readability scores to the page_extracts list
+    category_page_extracts_with_scores = []
+    for index, category_page_extract in enumerate(category_page_extracts):
+        page_id = category_page_extract['pageid']
+
+        try:
+            page_readability_scores = readability_scores[page_id]
+            category_page_extracts_with_scores.append(
+                {**category_page_extracts[index], **{'readability_scores': page_readability_scores}}
+            )
+            print(category_page_extracts[index].update({'readability_scores': page_readability_scores}))
+
+        except KeyError:
+            pass
+
+    # Sort the list according to least readable to most readable
+    category_page_extracts_with_scores.sort(key=lambda x: x['readability_scores']['FleschReadingEase'])
+
+    # Prepare the response data
+    response_data = {
+        'category_page_extracts': category_page_extracts_with_scores
+    }
 
     return HttpResponse(json.dumps(response_data), content_type='application/json')

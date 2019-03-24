@@ -59,7 +59,7 @@
            var tableRow =
              '<tr class="toggle-parent-' + i + '" data-toggle="collapse" data-target=".js-article-sorting_text-extract' + i + '">' +
                '<td>' + response.category_page_extracts[i]['title'] + '</td>' +
-               '<td>' + response.category_page_extracts[i]['readability_score'] + '</td>' +
+               '<td>' + response.category_page_extracts[i]['readability_scores']['FleschReadingEase'] + '</td>' +
              '</tr>' +
              '<tr>' +
                '<td colspan=2>' +
